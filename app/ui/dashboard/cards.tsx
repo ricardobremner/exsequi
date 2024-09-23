@@ -1,27 +1,26 @@
 import {
   RectangleStackIcon,
   ClockIcon,
-  UserGroupIcon,
-  CheckIcon,
+  CheckIcon
 } from '@heroicons/react/24/outline';
 import { lusitana } from '@/app/ui/fonts';
-// import { fetchCardData } from '@/app/lib/data';
+import { TaskstatProps } from '@/app/lib/definitions';
 
 const iconMap = {
   tasks: RectangleStackIcon,
   pending: ClockIcon,
-  done: CheckIcon,
+  done: CheckIcon
 };
 
-export default async function CardWrapper() {
-
+export default function CardWrapper({ tasks }: TaskstatProps) {
+  const totalTask = tasks.length;
+  const totalPending = tasks.filter(task => task.status === 'pending').length;
+  const totalDone = tasks.filter(task => task.status === 'done').length;
   return (
     <>
-      {/* NOTE: comment in this code when you get to this point in the course */}
-
-      <Card title="Tasks" value="totalTasks" type="tasks" />
-      <Card title="Pending" value="totalPendingTasks" type="pending" />
-      <Card title="Done" value="numberOfTasks" type="done" />
+      <Card title="Tasks" value={totalTask} type="tasks" />
+      <Card title="Pending" value={totalPending} type="pending" />
+      <Card title="Done" value={totalDone} type="done" />
     </>
   );
 }
@@ -29,12 +28,13 @@ export default async function CardWrapper() {
 export function Card({
   title,
   value,
-  type,
+  type
 }: {
   title: string;
   value: number | string;
-  type: 'done' |  'pending' | 'tasks';
+  type: 'done' | 'pending' | 'tasks';
 }) {
+
   const Icon = iconMap[type];
 
   return (
